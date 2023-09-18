@@ -251,7 +251,7 @@ public class Main {
 				double SMHItemp = rs.getDouble("SMHItemp");	
 				//double tempupp = rs.getDouble("TempUpp");
 				//double tempned = rs.getDouble("TempNed");
-				double tempupp = paaAlfa - ((temperaturTotal-SMHItemp)*avBeta*0.5);
+				double tempupp = (paaAlfa - (temperaturTotal-SMHItemp)*avBeta)*0.5;
 				double tempned = (temperaturTotal-SMHItemp)*avBeta*0.5; 
 				
 				
