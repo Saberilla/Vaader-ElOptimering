@@ -338,8 +338,8 @@ public class Main {
 	
 	private void setDateValues() {
 		
-		//this.fromDate  = getTodayDatePlusHour(); //has todays date
-		this.fromDate  = getTodayDatePlusHourHARD(); 
+		this.fromDate  = getTodayDatePlusHour(); //has todays date
+		//this.fromDate  = getTodayDatePlusHourHARD(); 
 		this.toDate = getSixHoursAddedDate(fromDate);
 		this.toDateNoHour = toDate.substring(0,8);
 		this.fromDateNoHour = fromDate.substring(0,8);
