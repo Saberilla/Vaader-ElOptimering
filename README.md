@@ -1,5 +1,5 @@
 # Vaader-ElOptimering
-Home Optimization Project for lowest energy costs. The USP is that we use the isolated house to minimize energycosts.
+Home Optimization Project for lowest energy costs. The USP is that we use the isolated house  as a heat battery to minimize energycosts.
 
 Background:
 Our summerhouse had an enormous electric bill.
