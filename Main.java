@@ -3,12 +3,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Calendar;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 public class Main {
 	
@@ -73,7 +73,7 @@ public class Main {
 		
 		//System.out.println(getTodayDatePlusHour()); //testa datum
 		setDateValues();
-		setAvailable();
+		setAvailable(); 
 		
 		mainLoop();
 
@@ -124,20 +124,40 @@ public class Main {
 		
 		List<SimData> failedList = new ArrayList<>();
 		
+		int undantag = 1;
+		boolean isUndantag = false;
+		
 		for (SimData data : list) {
 			failedList.add(data);
-			if(data.getTemperaturTotal() > data.getTmax() || data.getTemperaturTotal() < data.getTmin()) {
+			
+			
+		
+			if (data.getOrdning() >= undantag && data.getPaav() == 1 &&  data.getTemperaturTotal() < data.getTmin()) {
+				isUndantag = true;
+				setPaavUndantag(failedList);
+				undantag++;
+				
+			}
+			
+			if(data.getTemperaturTotal() > data.getTmax() || data.getTemperaturTotal() < data.getTmin() && isUndantag == false) {
+				
 				found = false;
 				System.out.println("FAILED AT NR:" + data.getOrdning() + " TEMP:" + data.getTemperaturTotal() + 
 						" MAX:" + data.getTmax() + " MIN:"  + data.getTmin());
 				System.out.println("________________________________________");
-				
+					
 				setPaav(failedList);
+					
+				
+				
 				break; //leave for loop
 			}
+			isUndantag = false;
 		}
 		return found;
 	}
+	
+
 	
 	private void setDefault(double defaultTemp) {
 		
@@ -201,6 +221,18 @@ public class Main {
 		str.append("UPDATE alternativR set vald=0 where ");
 		for (SimData data : list) {
 			str.append("paav" + data.getOrdning() + "=" + data.getPaav() + " and ");
+		}
+		int len = str.length(); 
+		str.delete(len-5, len); //removes last and in sql code
+		str.append(";");
+		executeSetPaav(str.toString());	
+	}
+	
+	private void setPaavUndantag(List<SimData> list) {
+		StringBuilder str = new StringBuilder();
+		str.append("UPDATE alternativR set vald=0 where ");
+		for (SimData data : list) {
+			str.append("paav" + data.getOrdning() + "= 0" + " and ");
 		}
 		int len = str.length(); 
 		str.delete(len-5, len); //removes last and in sql code
@@ -389,7 +421,7 @@ public class Main {
 		 SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHH");
 		 String strDate = "";
 		
-		String date = "2023080721"; //2023 08 07 21
+ 		 String date = "2023081021"; //2023 08 07 21
 		 
 			Date dateAsDate;
 			try {
